@@ -7,13 +7,15 @@ import { useAuth } from '../context/AuthContext';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL; // Obtener la URL del backend desde la variable de entorno
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, { // Usar la URL del backend configurada
         email,
         password,
       });
@@ -41,18 +43,25 @@ export default function Login() {
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <label className="block text-gray-700 text-mg font-titles mb-2" htmlFor="password">
             Contraseña
           </label>
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 px-3 py-2 font-body text-gray-600"
+          >
+            {showPassword ? 'Ocultar' : 'Mostrar'}
+          </button>
         </div>
         <div className="flex items-center justify-between">
           <button

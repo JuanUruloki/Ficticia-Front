@@ -23,6 +23,7 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL; // Obtener la URL del backend desde la variable de entorno
     e.preventDefault();
     let validationErrors = {};
 
@@ -54,7 +55,7 @@ export default function Register() {
     }
 
     try {
-      await axios.post('http://localhost:5001/api/auth/register', {
+      await axios.post(`${API_URL}/api/auth/register`, { // Usar la URL del backend configurada
         name,
         email,
         password,

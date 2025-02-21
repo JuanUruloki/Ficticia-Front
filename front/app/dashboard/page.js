@@ -13,18 +13,23 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     if (!token) {
       router.push('/login');
     } else {
       setIsAuthenticated(true);
       const fetchClients = async () => {
-        const { data } = await axios.get('http://localhost:5001/api/clients', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setClients(data);
-        setLoading(false);
+        try {
+          const { data } = await axios.get(`${API_URL}/api/clients`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setClients(data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error al obtener los clientes', error);
+        }
       };
 
       fetchClients();
@@ -33,8 +38,9 @@ export default function Dashboard() {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
-      await axios.delete(`http://localhost:5001/api/clients/${id}`, {
+      await axios.delete(`${API_URL}/api/clients/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +69,7 @@ export default function Dashboard() {
         Agregar Cliente
       </button>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white  shadow-md rounded-lg overflow-hidden">
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gray-200 font-body">
             <tr>
               <th className="py-2 px-4">Nombre Completo</th>
@@ -94,13 +100,13 @@ export default function Dashboard() {
                 <td className="py-2 px-4">
                   <button
                     onClick={() => router.push(`/clients/edit/${client.id}`)}
-                    className=" w-10 text-black tracking-wider font-header font-bold text-xl px-4 py-2  "
+                    className=" w-10 text-black tracking-wider font-header font-bold text-xl px-4 py-2"
                   >
                     <TbUserEdit />
                   </button>
                   <button
                     onClick={() => handleDelete(client.id)}
-                    className=" w-10 text-black tracking-wider font-header font-bold text-xl px-4 py-2  ml-2 "
+                    className=" w-10 text-black tracking-wider font-header font-bold text-xl px-4 py-2 ml-2"
                   >
                     <LuDelete />
                   </button>

@@ -21,7 +21,8 @@ export default function EditClient() {
     const fetchClient = async () => {
       try {
         const token = localStorage.getItem('token');
-        const { data } = await axios.get(`http://localhost:5001/api/clients/${id}`, {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL;
+        const { data } = await axios.get(`${API_URL}/api/clients/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,9 +47,10 @@ export default function EditClient() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
       await axios.put(
-        `http://localhost:5001/api/clients/${id}`,
+        `${API_URL}/api/clients/${id}`,
         {
           fullName,
           identification,

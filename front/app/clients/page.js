@@ -19,9 +19,10 @@ export default function AddClient() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
       await axios.post(
-        'http://localhost:5001/api/clients',
+        `${API_URL}/api/clients`,
         {
           fullName,
           identification,
