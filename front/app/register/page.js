@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -141,9 +143,9 @@ export default function Register() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 px-3 py-2 font-body text-gray-600"
+            className="absolute right-0 px-3 py-2 font-body text-gray-600"
           >
-            {showPassword ? 'Ocultar' : 'Mostrar'}
+            {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
           </button>
           {errors.password && <p className="text-red-500 text-xs italic">{errors.password}</p>}
         </div>
@@ -165,9 +167,9 @@ export default function Register() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 px-3 py-2 font-body text-gray-600"
+            className="absolute right-0 px-3 py-2 font-body text-gray-600"
           >
-            {showPassword ? 'Ocultar' : 'Mostrar'}
+            {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
           </button>
           {errors.confirmPassword && <p className="text-red-500 text-xs italic">{errors.confirmPassword}</p>}
         </div>
